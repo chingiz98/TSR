@@ -32,11 +32,11 @@ def binarization(image):
 
 def preprocess_image(image):
     image = constrastLimit(image)
-    cv2.imshow("CONTRAST", image)
+    #cv2.imshow("CONTRAST", image)
     image = LaplacianOfGaussian(image)
-    cv2.imshow("GAUSSIAN", image)
+    #cv2.imshow("GAUSSIAN", image)
     image = binarization(image)
-    cv2.imshow("BINARY", image)
+    #cv2.imshow("BINARY", image)
     return image
 
 
@@ -58,10 +58,7 @@ def removeSmallComponents(image, threshold):
 def findContour(image):
     # find contours in the thresholded image
     cnts = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
-
-
 
     return cnts
 
@@ -75,6 +72,7 @@ def contourIsSign(perimeter, centroid, threshold):
         distance = sqrt((p[0] - centroid[0]) ** 2 + (p[1] - centroid[1]) ** 2)
         result.append(distance)
     max_value = max(result)
+
     signature = [float(dist) / max_value for dist in result]
     # Check signature of contour.
     temp = sum((1 - s) for s in signature)
@@ -123,6 +121,9 @@ def findLargestSign(image, contours, threshold, distance_theshold):
     max_distance = 0
     coordinate = None
     sign = None
+    i = 0
+    signs = []
+    coordinates = []
     for c in contours:
         M = cv2.moments(c)
         if M["m00"] == 0:
@@ -132,6 +133,19 @@ def findLargestSign(image, contours, threshold, distance_theshold):
         is_sign, distance = contourIsSign(c, [cX, cY], 1-threshold)
         if is_sign:
             print("SIGN_FOUND")
+
+
+        if is_sign and distance > distance_theshold:
+            coordinate = np.reshape(c, [-1, 2])
+            left, top = np.amin(coordinate, axis=0)
+            right, bottom = np.amax(coordinate, axis=0)
+            coordinate = [(left - 2, top - 2), (right + 3, bottom + 1)]
+            sign = cropSign(image, coordinate)
+            #cv2.imshow("KEKPEP" + str(i), sign)
+            signs.append(sign)
+            coordinates.append(coordinate)
+            #i += 1
+
         if is_sign and distance > max_distance and distance > distance_theshold:
             max_distance = distance
             coordinate = np.reshape(c, [-1,2])
@@ -139,7 +153,7 @@ def findLargestSign(image, contours, threshold, distance_theshold):
             right, bottom = np.amax(coordinate, axis = 0)
             coordinate = [(left-2,top-2),(right+3,bottom+1)]
             sign = cropSign(image,coordinate)
-    return sign, coordinate
+    return sign, coordinate, signs, coordinates
 
 def localization(image, min_size_components, similitary_contour_with_circle, model, count, current_sign_type):
     original_image = image.copy()
@@ -157,70 +171,75 @@ def localization(image, min_size_components, similitary_contour_with_circle, mod
     sign, coordinate = findLargestSign(original_image, contours, similitary_contour_with_circle, 15)
     return sign
 
-planets = cv2.imread('123.jpg')
+
+vidcap = cv2.VideoCapture("test.mp4")
+
+status, frame = vidcap.read()
+
+while True:
+        print("NEXT FRAME")
+        success,frame = vidcap.read()
+        if not success:
+            print("FINISHED")
+            break
+        frame = cv2.resize(frame, (640, 480))
+        #planets = cv2.imread('123.jpg')
+        planets = frame
+        binary_image = preprocess_image(planets)
+
+        binary_image = removeSmallComponents(binary_image, 200)
 
 
-
-
-#gray_img = cv2.cvtColor(planets, cv2.COLOR_BGR2GRAY)
-#img = cv2.medianBlur(gray_img, 3)
-#cimg = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-
-#contr = constrastLimit(cimg)
-#cv2.imshow("contr", contr)
-#cv2.imshow("pep", cimg)
-
-binary_image = preprocess_image(planets)
-
-binary_image = removeSmallComponents(binary_image, 200)
-
-
-
-
-#print(binary_image)
-
-binary_image = cv2.bitwise_and(binary_image,binary_image, mask=remove_other_color(planets))
+        binary_image = cv2.bitwise_and(binary_image,binary_image, mask=remove_other_color(planets))
 
 
 # Grayscale
-gray = cv2.cvtColor(planets, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(planets, cv2.COLOR_BGR2GRAY)
 
 # Find Canny edges
-edged = cv2.Canny(gray, 30, 200)
+        #edged = cv2.Canny(gray, 30, 200)
 
 
 # Finding Contours
 # Use a copy of the image e.g. edged.copy()
 # since findContours alters the image
-_, contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        #_, contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
-cv2.imshow('Canny Edges After Contouring', binary_image)
-
-
-print("Number of Contours found = " + str(len(contours)))
+# cv2.imshow('Canny Edges After Contouring', binary_image)
+#
+#
+# print("Number of Contours found = " + str(len(contours)))
 
 # Draw all contours
 # -1 signifies drawing all contours
-for i in range(0, 349):
-    cv2.drawContours(planets, contours[i], -1, (0, 255, 0), 3)
-    cv2.imshow('RESULT', planets)
-    cv2.waitKey(1)
+
+# for i in range(0, 349):
+#     cv2.drawContours(planets, contours[i], -1, (0, 255, 0), 3)
+#     cv2.imshow('RESULT', planets)
+#     cv2.waitKey(1)
 
 
-contours = findContour(binary_image)
+        contours = findContour(binary_image)
 
-sign, coordinate = findLargestSign(planets, contours, 0.65, 15)
+        sign, coordinate, signs, coordinates = findLargestSign(planets, contours, 0.60, 10)
+        cv2.imshow("HoughCirlces1", frame)
 
-##sign, coordinate = findLargestSign(original_image, contours, similitary_contour_with_circle, 15)
+        ##sign, coordinate = findLargestSign(original_image, contours, similitary_contour_with_circle, 15)
 
-cv2.rectangle(planets, coordinate[0], coordinate[1], (255, 255, 255), 1)
+        cv2.rectangle(planets, coordinate[0], coordinate[1], (255, 255, 255), 1)
 
-cv2.imshow('BINARY IMAGE', binary_image)
+        for c in coordinates:
+            cv2.rectangle(planets, c[0], c[1], (255, 0, 0), 3)
 
+#cv2.imshow('BINARY IMAGE', binary_image)
 
+        cv2.imshow("HoughCirlces", planets)
+        #cv2.moveWindow("HoughCirlces", 30, 40)
 
 # center
 
+cv2.waitKey()
+cv2.destroyAllWindows()
 
 """
 circles = cv2.HoughCircles(binary_image, cv2.HOUGH_GRADIENT, 1, 100, param1=100, param2=30, minRadius=0, maxRadius=0)
@@ -233,8 +252,9 @@ for i in circles[0, :]:
     cv2.circle(planets, (i[0], i[1]), 2, (0, 0, 255), 3)
 
 """
-cv2.imshow("HoughCirlces", planets)
-cv2.waitKey()
-cv2.destroyAllWindows()
+
+
+
+
 
 
