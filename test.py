@@ -32,11 +32,11 @@ def binarization(image):
 
 def preprocess_image(image):
     image = constrastLimit(image)
-    #cv2.imshow("CONTRAST", image)
+    cv2.imshow("CONTRAST", image)
     image = LaplacianOfGaussian(image)
-    #cv2.imshow("GAUSSIAN", image)
+    cv2.imshow("GAUSSIAN", image)
     image = binarization(image)
-    #cv2.imshow("BINARY", image)
+    cv2.imshow("BINARY", image)
     return image
 
 
@@ -172,7 +172,7 @@ def localization(image, min_size_components, similitary_contour_with_circle, mod
     return sign
 
 
-vidcap = cv2.VideoCapture("test.mp4")
+vidcap = cv2.VideoCapture("test_video2.mp4")
 
 status, frame = vidcap.read()
 
@@ -186,32 +186,37 @@ while True:
         #planets = cv2.imread('123.jpg')
         planets = frame
         binary_image = preprocess_image(planets)
-
         binary_image = removeSmallComponents(binary_image, 200)
-
-
-        binary_image = cv2.bitwise_and(binary_image,binary_image, mask=remove_other_color(planets))
-
-
-# Grayscale
+        binary_image = cv2.bitwise_and(binary_image, binary_image, mask=remove_other_color(planets))
         gray = cv2.cvtColor(planets, cv2.COLOR_BGR2GRAY)
+        contours = findContour(binary_image)
+        cv2.imshow("BINARY2", binary_image)
+        sign, coordinate, signs, coordinates = findLargestSign(planets, contours, 0.8, 10)
+        cv2.imshow("HoughCirlces1", frame)
 
-# Find Canny edges
+        try:
+            cv2.rectangle(planets, coordinate[0], coordinate[1], (255, 255, 255), 1)
+        except Exception:
+            5 + 5
+
+        for c in coordinates:
+            cv2.rectangle(planets, c[0], c[1], (255, 0, 0), 3)
+
+        cv2.imshow("HoughCirlces", planets)
+        cv2.waitKey(1)
+
+
         #edged = cv2.Canny(gray, 30, 200)
 
 
-# Finding Contours
-# Use a copy of the image e.g. edged.copy()
-# since findContours alters the image
+
         #_, contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
 # cv2.imshow('Canny Edges After Contouring', binary_image)
-#
-#
+
 # print("Number of Contours found = " + str(len(contours)))
 
-# Draw all contours
-# -1 signifies drawing all contours
+
 
 # for i in range(0, 349):
 #     cv2.drawContours(planets, contours[i], -1, (0, 255, 0), 3)
@@ -219,24 +224,7 @@ while True:
 #     cv2.waitKey(1)
 
 
-        contours = findContour(binary_image)
 
-        sign, coordinate, signs, coordinates = findLargestSign(planets, contours, 0.60, 10)
-        cv2.imshow("HoughCirlces1", frame)
-
-        ##sign, coordinate = findLargestSign(original_image, contours, similitary_contour_with_circle, 15)
-
-        cv2.rectangle(planets, coordinate[0], coordinate[1], (255, 255, 255), 1)
-
-        for c in coordinates:
-            cv2.rectangle(planets, c[0], c[1], (255, 0, 0), 3)
-
-#cv2.imshow('BINARY IMAGE', binary_image)
-
-        cv2.imshow("HoughCirlces", planets)
-        #cv2.moveWindow("HoughCirlces", 30, 40)
-
-# center
 
 cv2.waitKey()
 cv2.destroyAllWindows()

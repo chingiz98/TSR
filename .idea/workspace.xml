@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6225266-5645-490e-a246-29f93140fa72" name="Default Changelist" comment="initial">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/untitled.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/untitled.iml" afterDir="false" />
+    <list default="true" id="e6225266-5645-490e-a246-29f93140fa72" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/cv2/cv2.cp38-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/cv2/cv2.cp38-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/cv2/opencv_videoio_ffmpeg412.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/INSTALLER" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/LICENSE-3RD-PARTY.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/METADATA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/RECORD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/WHEEL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/opencv_python-4.1.2.30.dist-info/top_level.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +92,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575990041271</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial">
+      <created>1576009859852</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1576009859852</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -124,38 +120,38 @@
       <screen x="0" y="23" width="1440" height="833" />
     </state>
     <state x="429" y="60" key="#kok/0.23.1440.833@0.23.1440.833" timestamp="1575444043522" />
-    <state x="471" y="60" key="CommitChangelistDialog2" timestamp="1575992416084">
+    <state x="471" y="60" key="CommitChangelistDialog2" timestamp="1576009855506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="353" y="52" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1575990040827" />
-    <state x="471" y="60" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1575992416084" />
+    <state x="471" y="60" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576009855506" />
     <state width="856" height="466" key="DebuggerActiveHint" timestamp="1575444268576">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="856" height="466" key="DebuggerActiveHint/0.0.1440.900@0.0.1440.900" timestamp="1575444268576" />
-    <state width="1899" height="420" key="GridCell.Tab.0.bottom" timestamp="1576009847721">
+    <state width="1899" height="420" key="GridCell.Tab.0.bottom" timestamp="1576013737486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1419" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1575739386595" />
-    <state width="1899" height="420" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1576009847721" />
+    <state width="1899" height="420" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1576013737486" />
     <state width="1419" height="203" key="GridCell.Tab.0.bottom/0.23.1440.833@0.23.1440.833" timestamp="1575628165256" />
-    <state width="1899" height="420" key="GridCell.Tab.0.center" timestamp="1576009847721">
+    <state width="1899" height="420" key="GridCell.Tab.0.center" timestamp="1576013737486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1419" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1575739386594" />
-    <state width="1899" height="420" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1576009847721" />
+    <state width="1899" height="420" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1576013737486" />
     <state width="1419" height="203" key="GridCell.Tab.0.center/0.23.1440.833@0.23.1440.833" timestamp="1575628165253" />
-    <state width="1899" height="420" key="GridCell.Tab.0.left" timestamp="1576009847721">
+    <state width="1899" height="420" key="GridCell.Tab.0.left" timestamp="1576013737486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1419" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1575739386593" />
-    <state width="1899" height="420" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1576009847721" />
+    <state width="1899" height="420" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1576013737486" />
     <state width="1419" height="203" key="GridCell.Tab.0.left/0.23.1440.833@0.23.1440.833" timestamp="1575628165251" />
-    <state width="1899" height="420" key="GridCell.Tab.0.right" timestamp="1576009847721">
+    <state width="1899" height="420" key="GridCell.Tab.0.right" timestamp="1576013737486">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1419" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1575739386594" />
-    <state width="1899" height="420" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1576009847721" />
+    <state width="1899" height="420" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1576013737486" />
     <state width="1419" height="203" key="GridCell.Tab.0.right/0.23.1440.833@0.23.1440.833" timestamp="1575628165255" />
     <state width="1899" height="240" key="GridCell.Tab.1.bottom" timestamp="1576003754353">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -182,10 +178,11 @@
     </state>
     <state x="56" y="268" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1575993339367" />
     <state x="42" y="134" key="SettingsEditor/0.23.1440.833@0.23.1440.833" timestamp="1575444055035" />
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1575990046035">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="427" y="220" key="Vcs.Push.Dialog.v2" timestamp="1576009866975">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1575990046035" />
+    <state x="427" y="220" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1576009866975" />
     <state x="496" y="297" key="com.intellij.ide.util.TipDialog" timestamp="1575444022161">
       <screen x="0" y="23" width="1440" height="833" />
     </state>
@@ -197,7 +194,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test.py</url>
-          <line>191</line>
+          <line>232</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
