@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6225266-5645-490e-a246-29f93140fa72" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/untitled.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/untitled.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/123.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +82,19 @@
       <option name="presentableId" value="Default" />
       <updated>1575373801149</updated>
     </task>
+    <task id="LOCAL-00001" summary="initial">
+      <created>1575990041271</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1575990041271</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial" />
   </component>
   <component name="WindowStateProjectService">
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575446684616">
@@ -96,6 +105,10 @@
       <screen x="0" y="23" width="1440" height="833" />
     </state>
     <state x="429" y="60" key="#kok/0.23.1440.833@0.23.1440.833" timestamp="1575444043522" />
+    <state x="353" y="52" key="CommitChangelistDialog2" timestamp="1575990040827">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="353" y="52" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1575990040827" />
     <state width="856" height="466" key="DebuggerActiveHint" timestamp="1575444268576">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -149,6 +162,10 @@
     </state>
     <state x="56" y="268" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1575400612822" />
     <state x="42" y="134" key="SettingsEditor/0.23.1440.833@0.23.1440.833" timestamp="1575444055035" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1575990046035">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1575990046035" />
     <state x="496" y="297" key="com.intellij.ide.util.TipDialog" timestamp="1575444022161">
       <screen x="0" y="23" width="1440" height="833" />
     </state>
