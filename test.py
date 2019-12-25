@@ -1,7 +1,7 @@
 import os
 
 import cv2
-import keras as keras
+import tensorflow as tf
 import numpy as np
 from math import sqrt
 import imutils
@@ -11,6 +11,8 @@ from keras.layers import Dense
 from keras.optimizers import SGD
 from skimage import io
 from skimage import transform
+from PIL import Image
+
 
 
 def constrastLimit(image):
@@ -32,8 +34,6 @@ def LaplacianOfGaussian(image):
 
 def binarization(image):
 
-
-
     thresh = cv2.threshold(image, 32, 255, cv2.THRESH_BINARY)[1]
     # thresh = cv2.adaptiveThreshold(image,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
     return thresh
@@ -41,11 +41,11 @@ def binarization(image):
 
 def preprocess_image(image):
     image = constrastLimit(image)
-    cv2.imshow("CONTRAST", image)
+    #cv2.imshow("CONTRAST", image)
     image = LaplacianOfGaussian(image)
-    cv2.imshow("GAUSSIAN", image)
+    #cv2.imshow("GAUSSIAN", image)
     image = binarization(image)
-    cv2.imshow("BINARY", image)
+    #cv2.imshow("BINARY", image)
     return image
 
 
@@ -70,7 +70,6 @@ def findContour(image):
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 
     return cnts
-
 
 def contourIsSign(perimeter, centroid, threshold):
     #  perimeter, centroid, threshold
@@ -140,28 +139,20 @@ def findLargestSign(image, contours, threshold, distance_theshold):
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
         is_sign, distance = contourIsSign(c, [cX, cY], 1-threshold)
-        if is_sign:
-            print("SIGN_FOUND")
+        # if is_sign:
+        #     print("SIGN_FOUND")
 
 
         if is_sign and distance > distance_theshold:
             coordinate = np.reshape(c, [-1, 2])
             left, top = np.amin(coordinate, axis=0)
             right, bottom = np.amax(coordinate, axis=0)
-            coordinate = [(left - 2, top - 2), (right + 3, bottom + 1)]
+            coordinate = [(left - 10, top - 10), (right + 11, bottom + 9)]
             sign = cropSign(image, coordinate)
-            #cv2.imshow("KEKPEP" + str(i), sign)
             signs.append(sign)
             coordinates.append(coordinate)
-            #i += 1
 
-        if is_sign and distance > max_distance and distance > distance_theshold:
-            max_distance = distance
-            coordinate = np.reshape(c, [-1,2])
-            left, top = np.amin(coordinate, axis=0)
-            right, bottom = np.amax(coordinate, axis = 0)
-            coordinate = [(left-2,top-2),(right+3,bottom+1)]
-            sign = cropSign(image,coordinate)
+
     return sign, coordinate, signs, coordinates
 
 def localization(image, min_size_components, similitary_contour_with_circle, model, count, current_sign_type):
@@ -181,36 +172,15 @@ def localization(image, min_size_components, similitary_contour_with_circle, mod
     return sign
 
 
-def load_data(data_directory):
-    directories = [d for d in os.listdir(data_directory)
-                   if os.path.isdir(os.path.join(data_directory, d))]
-    labels = []
-    images = []
-    for d in directories:
-        label_directory = os.path.join(data_directory, d)
-        file_names = [os.path.join(label_directory, f)
-                      for f in os.listdir(label_directory)
-                      if f.endswith(".ppm")]
-        for f in file_names:
-            images.append(io.imread(f))
-            labels.append(int(d))
-    images = np.array(images)
-    labels = np.array(labels)
-    images28 = [transform.resize(image, (28, 28)) for image in images]
-    images28 = np.array(images28)
-    images28 = skimage.color.rgb2gray(images28)
-    images28 = np.array(images28)
-    return images28, labels
+labelNames = open("signnames.csv").read().strip().split("\n")[1:]
+labelNames = [l.split(",")[1] for l in labelNames]
+
+model = tf.keras.models.load_model('new_model1.h5')
 
 
-
-
-vidcap = cv2.VideoCapture("test_video2.mp4")
+vidcap = cv2.VideoCapture("test15.mp4")
 
 status, frame = vidcap.read()
-
-
-
 
 
 while True:
@@ -220,17 +190,38 @@ while True:
             print("FINISHED")
             break
         frame = cv2.resize(frame, (640, 480))
-        #planets = cv2.imread('123.jpg')
         planets = frame
         binary_image = preprocess_image(planets)
-        binary_image = removeSmallComponents(binary_image, 200)
+        binary_image = removeSmallComponents(binary_image, 100)
         binary_image = cv2.bitwise_and(binary_image, binary_image, mask=remove_other_color(planets))
+        cv2.imshow("FILTERED", binary_image)
         gray = cv2.cvtColor(planets, cv2.COLOR_BGR2GRAY)
         contours = findContour(binary_image)
-        cv2.imshow("BINARY2", binary_image)
         sign, coordinate, signs, coordinates = findLargestSign(planets, contours, 0.65, 15)
-        cv2.imshow("HoughCirlces1", frame)
 
+        for i, s in enumerate(signs):
+
+            input_img = s
+            images = []
+            image = s
+            image = skimage.color.rgb2grey(image)
+            #cv2.imshow("before", image)
+            #cv2.waitKey(0)
+            image = (image / 255.0)  # rescale
+            #cv2.imshow("after", image)
+            #cv2.waitKey(0)
+            image = cv2.resize(image, (32, 32))  # resize
+            images.append(image)
+            images = np.stack([img[:, :, np.newaxis] for img in images], axis=0).astype(np.float32)
+            reshaped = np.reshape(images[0], (1, 32, 32, 1))
+
+            preds = model.predict(reshaped)
+            j = preds.argmax(axis=1)[0]
+            maxval = preds.max(1)
+
+            label = labelNames[j] + " " + str(round(maxval[0],2))
+
+            cv2.putText(planets, str(label), coordinates[i][0], cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
         try:
             cv2.rectangle(planets, coordinate[0], coordinate[1], (255, 255, 255), 1)
         except Exception:
@@ -242,41 +233,8 @@ while True:
         cv2.imshow("HoughCirlces", planets)
         cv2.waitKey(1)
 
-
-        #edged = cv2.Canny(gray, 30, 200)
-
-
-
-        #_, contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
-# cv2.imshow('Canny Edges After Contouring', binary_image)
-
-# print("Number of Contours found = " + str(len(contours)))
-
-
-
-# for i in range(0, 349):
-#     cv2.drawContours(planets, contours[i], -1, (0, 255, 0), 3)
-#     cv2.imshow('RESULT', planets)
-#     cv2.waitKey(1)
-
-
-
-
-cv2.waitKey()
+cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-"""
-circles = cv2.HoughCircles(binary_image, cv2.HOUGH_GRADIENT, 1, 100, param1=100, param2=30, minRadius=0, maxRadius=0)
-circles = np.uint16(np.around(circles))
-
-for i in circles[0, :]:
-    #	draw	the	outer	circle
-    cv2.circle(planets, (i[0], i[1]), i[2], (0, 255, 0), 6)
-    #	draw	the	center	of	the	circle
-    cv2.circle(planets, (i[0], i[1]), 2, (0, 0, 255), 3)
-
-"""
 
 
 
